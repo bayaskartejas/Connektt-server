@@ -7,15 +7,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  CUSTOMER
+  PROFESSIONAL
+}
+
 model User {
   id        String   @id @default(uuid())
   mobile    String   @unique
   role      Role     @default(CUSTOMER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  profile   ProfessionalProfile?
 }
 
-enum Role {
-  CUSTOMER
-  PROFESSIONAL
+model ProfessionalProfile {
+  id           String    @id @default(uuid())
+  user         User      @relation(fields: [userId], references: [id])
+  userId       String    @unique
+
+  name         String
+  business     String
+  category     String
+  city         String
+  bio          String?
+
+  experience   String     // e.g. "11+ years"
+  rating       Float      @default(0)      // mockable
+  reviews      Int        @default(0)      // mockable
+
+  specialties  String[]   // e.g. ["Bridal Hair", "Color Specialist"]
+  availableFor String[]   // e.g. ["Weddings", "Fashion Shows"]
+
+  services     Service[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Service {
+  id              String   @id @default(uuid())
+  title           String
+  description     String?
+  price           Float
+
+  professional    ProfessionalProfile @relation(fields: [professionalId], references: [id])
+  professionalId  String
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
