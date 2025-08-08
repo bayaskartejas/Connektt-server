@@ -1,13 +1,17 @@
 import express from 'express';
-import { authenticate } from '../middleware/auth.middleware.js';
 import {
     getProfessionalsByLocation,
-    getProfessionalsByLocationAndCategory
+    getProfessionalsByLocationAndCategory,
+    getProfessionalsByLocationAndDate,
+    getProfessionalsByLocationDateAndCategory
 } from '../controllers/pro.controller.js';
 
 const router = express.Router();
 
-router.get('/:location/all', authenticate, getProfessionalsByLocation);
-router.get('/:location/:category', authenticate, getProfessionalsByLocationAndCategory);
+
+router.get('/:location/all', getProfessionalsByLocation);
+router.get('/:location/:category', getProfessionalsByLocationAndCategory);
+router.get('/:location/:date/all', getProfessionalsByLocationAndDate)
+router.get('/:location/:date/:category', getProfessionalsByLocationDateAndCategory)
 
 export default router;

@@ -27,18 +27,19 @@ model ProfessionalProfile {
   user         User      @relation(fields: [userId], references: [id])
   userId       String    @unique
 
-  name         String
-  business     String
+  name         String?
+  business     String?
   category     String
-  city         String
+  location     String
   bio          String?
 
-  experience   String     // e.g. "11+ years"
-  rating       Float      @default(0)      // mockable
-  reviews      Int        @default(0)      // mockable
+  experience   String?
+  rating       Float      @default(0)
+  reviews      Int        @default(0)
 
-  specialties  String[]   // e.g. ["Bridal Hair", "Color Specialist"]
-  availableFor String[]   // e.g. ["Weddings", "Fashion Shows"]
+  specialties  String[]
+  availableFor String[]
+  nextAvailableDate  DateTime?
 
   services     Service[]
   createdAt    DateTime   @default(now())

@@ -33,6 +33,23 @@ export async function verifyOTPHandler(req, res) {
         role: role === 'PROFESSIONAL' ? 'PROFESSIONAL' : 'CUSTOMER',
       },
     });
+    
+    if (user.role === 'PROFESSIONAL') {
+      await prisma.professionalProfile.create({
+        data: {
+          userId: user.id,
+          name: '',
+          business: '',
+          category: '',
+          location: '',
+          bio: '',
+          experience: '',
+          specialties: [],
+          availableFor: [],
+          nextAvailableDate: null,
+        },
+      });
+    }
   }
 
   const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, {
@@ -49,4 +66,3 @@ export async function verifyOTPHandler(req, res) {
     },
   });
 }
-
