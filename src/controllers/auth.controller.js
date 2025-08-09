@@ -11,7 +11,7 @@ export async function sendOTP(req, res) {
   const otp = generateOTP(mobile);
   console.log(`OTP for ${mobile}: ${otp}`);
 
-  return res.json({ message: 'OTP sent successfully (check console in prototype)' });
+  return res.json({ message: `The OTP is ${otp}` });
 }
 
 export async function verifyOTPHandler(req, res) {
