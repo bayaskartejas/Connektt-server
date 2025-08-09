@@ -101,4 +101,20 @@ export const updateProSchema = z.object({
       { message: "Invalid date format" }
     ),
 });
-    
+
+export const updateServiceSchema = z.object({
+  title: z
+    .string({ required_error: "Title is required" })
+    .max(50, "Title cannot exceed 50 characters"),
+
+  description: z
+    .string({ required_error: "Description is required" })
+    .max(150, "Description cannot exceed 150 characters"),
+
+  price: z
+    .number({
+      required_error: "Price is required",
+      invalid_type_error: "Price must be a number",
+    })
+    .positive("Price must be greater than 0"),
+});

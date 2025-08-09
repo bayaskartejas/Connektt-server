@@ -118,3 +118,50 @@ export const updatePro = async (req, res) => {
     res.status(500).json({ message: 'Internal server error.' });
   }
 };
+
+export const updateService = async (req, res) => {
+  try {
+    const { id: userId } = req.user;
+    const { title, description, price } = req.body;
+
+    const professional = await prisma.professionalProfile.findUnique({
+      where: { userId },
+    });
+
+    if (!professional) {
+      return res.status(404).json({ error: "Professional profile not found" });
+    }
+
+    let service = await prisma.service.findFirst({
+      where: { professionalId: professional.id, title },
+    });
+
+    if (!service) {
+      service = await prisma.service.create({
+        data: {
+          title,
+          description,
+          price: parseFloat(price),
+          professionalId: professional.id,
+        },
+      });
+    } else {
+      service = await prisma.service.update({
+        where: { id: service.id },
+        data: {
+          title,
+          description,
+          price: parseFloat(price),
+        },
+      });
+    }
+
+    return res.json({
+      message: "Service saved successfully",
+      service,
+    });
+  } catch (error) {
+    console.error("Error updating service:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
