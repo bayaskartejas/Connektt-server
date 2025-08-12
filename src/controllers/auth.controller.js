@@ -52,6 +52,9 @@ export async function verifyOTPHandler(req, res) {
     }
   }
 
+  console.log("JWT SECRET: " + JWT_SECRET);
+  
+
   const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, {
     expiresIn: '7d',
   });
