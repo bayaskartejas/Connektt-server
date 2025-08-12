@@ -1,7 +1,8 @@
 import prisma from '../config/db.js';
 import jwt from 'jsonwebtoken';
 import { generateOTP, verifyOTP } from '../utils/otp.util.js';
-
+import dotenv from 'dotenv';
+dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export async function sendOTP(req, res) {
