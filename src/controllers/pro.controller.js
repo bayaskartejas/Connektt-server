@@ -5,7 +5,10 @@ export const getProfessionalsByLocation = async (req, res) => {
 
     try {
         const professionals = await prisma.professionalProfile.findMany({
-            where: { location }
+          include: {
+            services: true,
+          },  
+          where: { location }
         });
         res.json(professionals);
     } catch (error) {
@@ -19,7 +22,10 @@ export const getProfessionalsByLocationAndCategory = async (req, res) => {
 
     try {
         const professionals = await prisma.professionalProfile.findMany({
-            where: {
+            include: {
+            services: true,
+          },  
+          where: {
                 location,
                 category
             }
@@ -36,6 +42,9 @@ export const getProfessionalsByLocationAndDate = async (req, res) => {
     const { location, date } = req.params;    
     
     const professionals = await prisma.professionalProfile.findMany({
+      include: {
+        services: true,
+      },  
       where: {
         location: location,
         nextAvailableDate: {
@@ -56,6 +65,9 @@ export const getProfessionalsByLocationDateAndCategory = async (req, res) => {
     const { location, date, category } = req.params;
 
     const professionals = await prisma.professionalProfile.findMany({
+      include: {
+            services: true,
+      },  
       where : {
         location: location,
         category: category,
